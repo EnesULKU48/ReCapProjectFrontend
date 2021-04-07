@@ -6,4 +6,4 @@ export interface Rental{
     carBrand:string;
     rentDate:number;
     returnDate:number;
-}
+}                                                                                   
