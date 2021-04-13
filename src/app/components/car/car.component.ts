@@ -26,9 +26,13 @@ export class CarComponent implements OnInit {
   ngOnInit(): void {
     this.getBrands()
     this.activatedRoute.params.subscribe(params=>{
-      if(params["brandName"]){
-        this.getCarsByBrand(params["brandName"])
-      }else{
+      if(params["brandId"]){
+        this.getCarsByBrand(params["brandId"])
+      }
+      else if(params["colorId"]) {
+        this.getCarsByColor(params["colorId"])
+      } 
+      else{
         this.getCarDetails()
       }
     })
@@ -42,19 +46,20 @@ export class CarComponent implements OnInit {
    })
   }
 
-  getCarsByBrand(brandName:string){
-    this.carService.getCarsByBrand(brandName).subscribe(response=>{
+  getCarsByBrand(brandId:number){
+    this.carService.getCarsByBrand(brandId).subscribe(response=>{
       this.carDetails = response.data
       this.dataLoaded = true;
     })
   }
 
-  getBrands(){
-    this.brandService.getBrands().subscribe(response=>{
-      this.brands = response.data
-      this.dataLoaded = true;
-    })
-  }
+  getCarsByColor(colorId:number){
+   this.carService.getCarsByColor(colorId).subscribe(response=>{
+   this.carDetails = response.data
+   this.dataLoaded = true;
+  })
+ }
+
 
   setCurrentBrand(brand:Brand){
     this.currentBrand = brand;
@@ -66,6 +71,13 @@ export class CarComponent implements OnInit {
     }else{
       return "list-group-item"
     }
+  }
+  
+  getBrands(){
+    this.brandService.getBrands().subscribe(response=>{
+      this.brands = response.data
+      this.dataLoaded = true;
+    })
   }
 
 
